@@ -18,13 +18,16 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
+        $newMembers = $this->get('badger.user.repository.user')->getNewUsersForMonth(date('m'), date('Y'));
+
         // TODO: TO UPDATE
         $lastBadgeCompletions = $this->get('badger.game.repository.badge_completion')->findByTags(
             $this->getUser()->getTags()->toArray()
         );
 
         return $this->render('@Game/home.html.twig', [
-            'badgeCompletions' => $lastBadgeCompletions
+            'badgeCompletions' => $lastBadgeCompletions,
+            'newMembers' => $newMembers
         ]);
     }
 

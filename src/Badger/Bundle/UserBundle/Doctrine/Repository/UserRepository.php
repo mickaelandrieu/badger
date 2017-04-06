@@ -59,4 +59,31 @@ class UserRepository extends EntityRepository implements UserRepositoryInterface
 
         return array_column($result, 'username');
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getNewUsersForMonth($month, $year)
+    {
+        $lastDay = date('t', mktime(0, 0, 0, $month, 1, $year));
+
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('u')
+            ->from('UserBundle:User', 'u')
+            ->where('u.date_registered >= :firstDayOfMonth')
+            ->andWhere('u.date_registered <= :lastDayOfMonth')
+            ->orderBy('u.date_registered', 'DESC')
+            ->setParameter('firstDayOfMonth', date(sprintf('%s-%s-01', $year, $month)))
+            ->setParameter('lastDayOfMonth', date(sprintf('%s-%s-%s', $year, $month, $lastDay)))
+        ;
+
+        $query = $qb->getQuery();
+
+        return $query->getResult();
+    }
+
+    public function getUsersPerUnlockedBadgesForMonth($month, $year)
+    {
+
+    }
 }

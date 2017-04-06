@@ -3,6 +3,7 @@
 namespace Badger\Bundle\UserBundle\Security;
 
 use Badger\Component\Game\Repository\TagRepositoryInterface;
+use Faker\Provider\DateTime;
 use FOS\UserBundle\Model\UserManagerInterface;
 use HWI\Bundle\OAuthBundle\OAuth\Response\UserResponseInterface;
 use HWI\Bundle\OAuthBundle\Security\Core\User\FOSUBUserProvider as BaseClass;
@@ -94,6 +95,7 @@ class FOSUBUserProvider extends BaseClass
             $user->setPassword($username); // TODO: change
             $user->setProfilePicture($response->getProfilePicture());
             $user->setEnabled(true);
+            $user->setDateRegistered(new \DateTime());
             $user->setNuts(0);
 
             $tag = $this->tagRepository->findOneBy(['isDefault' => true]);

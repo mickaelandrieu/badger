@@ -25,4 +25,12 @@ interface UserRepositoryInterface
      * @return array
      */
     public function getAllUsernames();
+
+    /**
+     * @param string $month
+     * @param string $year
+     *
+     * @return array
+     */
+    public function getNewUsersForMonth($month, $year);
 }
