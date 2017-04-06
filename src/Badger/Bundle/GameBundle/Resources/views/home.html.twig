@@ -8,7 +8,7 @@
 
     <div class="row">
         <div class="col-md-4">
-            <div class="panel panel-body bg-slate-700" style="background-image: url(http://demo.interface.club/limitless/assets/images/bg.png); -webkit-box-shadow: 0px 0px 32px -9px rgba(0,0,0,0.75); -moz-box-shadow: 0px 0px 32px -9px rgba(0,0,0,0.75); box-shadow: 0px 0px 32px -9px rgba(0,0,0,0.75);">
+            <div class="panel panel-body bg-slate-700" style="background-image: url({{ asset('bundles/game/images/bg.png') }}); -webkit-box-shadow: 0px 0px 32px -9px rgba(0,0,0,0.75); -moz-box-shadow: 0px 0px 32px -9px rgba(0,0,0,0.75); box-shadow: 0px 0px 32px -9px rgba(0,0,0,0.75);">
                 <div class="media no-margin">
                     <div class="media-left media-middle">
                         <i class="icon-user-plus icon-2x"></i>
@@ -50,10 +50,10 @@
 
         </div>
         <div class="col-md-4">
-            <div class="panel panel-body bg-slate-700" style="background-image: url(http://demo.interface.club/limitless/assets/images/bg.png); -webkit-box-shadow: 0px 0px 32px -9px rgba(0,0,0,0.75); -moz-box-shadow: 0px 0px 32px -9px rgba(0,0,0,0.75); box-shadow: 0px 0px 32px -9px rgba(0,0,0,0.75);">
+            <div class="panel panel-body bg-slate-700" style="background-image: url({{ asset('bundles/game/images/bg.png') }}); -webkit-box-shadow: 0px 0px 32px -9px rgba(0,0,0,0.75); -moz-box-shadow: 0px 0px 32px -9px rgba(0,0,0,0.75); box-shadow: 0px 0px 32px -9px rgba(0,0,0,0.75);">
                 <div class="media no-margin">
                     <div class="media-left media-middle">
-                        <i class="icon-medal-star icon-2x"></i>
+                        <i class="icon-medal-star icon-2x" style="color: #c3c300;"></i>
                     </div>
 
                     <div class="media-body text-right">
@@ -70,18 +70,19 @@
                     <div class="heading-elements">
                         <form class="heading-form" action="#">
                             <div class="form-group">
-                                <select class="form-control">
-                                    <option value="AK">Community</option>
-                                    <option value="HI">Hawaii</option>
+                                <select class="form-control" name="champions-category">
+                                    {% for tag in userTags %}
+                                        <option value="{{ tag.code }}">{{ tag.name }}</option>
+                                    {% endfor %}
                                 </select>
                             </div>
                         </form>
                     </div>
                 </div>
-                <div class="panel-body">
+                <div class="panel-body no-margin no-padding">
                     <ul class="media-list media-list-bordered" style="max-height: 500px; overflow-y: auto;">
-                        <li class="media">
-                            <div class="media-left"><i class="icon-medal-first icon-2x text-success-800"></i></div>
+                        <li class="media p-15 no-margin-top" style="background-image: url({{ asset('bundles/game/images/bg.png') }}); box-shadow: inset 0px 0px 40px -14px rgba(171,162,31,1);">
+                            <div class="media-left"><i class="icon-medal-first icon-3x" style="color: #c3c300;"></i></div>
                             <div class="media-body">
                                 <div class="media-heading text-semibold"><span class="label label-success label-rounded">+7 Badges</span></div>
                                 <ul class="list-inline list-inline-condensed no-margin-bottom mt-15">
@@ -91,8 +92,8 @@
                                 </ul>
                             </div>
                         </li>
-                        <li class="media">
-                            <div class="media-left"><i class="icon-medal-second icon-2x text-success-600"></i></div>
+                        <li class="media p-15 no-margin-top" style="background-image: url({{ asset('bundles/game/images/bg.png') }});">
+                            <div class="media-left"><i class="icon-medal-second icon-3x" style="color: #bbbbbb;"></i></div>
                             <div class="media-body">
                                 <div class="media-heading text-semibold"><span class="label label-success label-rounded">+4 Badges</span></div>
                                 <ul class="list-inline list-inline-condensed no-margin-bottom mt-15">
@@ -101,8 +102,8 @@
                                 </ul>
                             </div>
                         </li>
-                        <li class="media">
-                            <div class="media-left"><i class="icon-medal-third icon-2x text-success-400"></i></div>
+                        <li class="media p-15 no-margin-top">
+                            <div class="media-left"><i class="icon-medal-third icon-3x" style="color: #c79c74;"></i></div>
                             <div class="media-body">
                                 <div class="media-heading text-semibold"><span class="label label-success label-rounded">+1 Badges</span></div>
                                 <ul class="list-inline list-inline-condensed no-margin-bottom mt-15">
@@ -122,21 +123,21 @@
             </div>
             <!-- /list with text -->
 
-            <div class="panel panel-body bg-primary-600" style="background-image: url(http://demo.interface.club/limitless/assets/images/bg.png); -webkit-box-shadow: 0px 0px 32px -9px rgba(0,0,0,0.75); -moz-box-shadow: 0px 0px 32px -9px rgba(0,0,0,0.75); box-shadow: 0px 0px 32px -9px rgba(0,0,0,0.75);">
+            <div class="panel panel-body bg-primary-600" style="background-image: url({{ asset('bundles/game/images/bg.png') }}); -webkit-box-shadow: 0px 0px 32px -9px rgba(0,0,0,0.75); -moz-box-shadow: 0px 0px 32px -9px rgba(0,0,0,0.75); box-shadow: 0px 0px 32px -9px rgba(0,0,0,0.75);">
                 <div class="media no-margin">
                     <div class="media-left media-middle">
                         <img src="https://avatars.githubusercontent.com/u/301169?v=3" class="img-circle" alt="">
                     </div>
 
                     <div class="media-body text-right">
-                        <h6 class="media-heading text-semibold">Hey {{ app.user.username }},</h6>
-                        <span class="text-muted"><small>you unlocked <b>1 badge</b> for this category this month.</small></span>
+                        <h6 class="media-heading text-semibold">You unlocked <span class="label label-primary label-rounded">1 Badges</span> this month!</h6>
+                        <span class="text-muted"><small>Keep going {{ app.user.username }} :)</small></span>
                     </div>
                 </div>
             </div>
         </div>
         <div class="col-md-4">
-            <div class="panel panel-body bg-slate-700" style="background-image: url(http://demo.interface.club/limitless/assets/images/bg.png); -webkit-box-shadow: 0px 0px 32px -9px rgba(0,0,0,0.75); -moz-box-shadow: 0px 0px 32px -9px rgba(0,0,0,0.75); box-shadow: 0px 0px 32px -9px rgba(0,0,0,0.75);">
+            <div class="panel panel-body bg-slate-700" style="background-image: url({{ asset('bundles/game/images/bg.png') }}); -webkit-box-shadow: 0px 0px 32px -9px rgba(0,0,0,0.75); -moz-box-shadow: 0px 0px 32px -9px rgba(0,0,0,0.75); box-shadow: 0px 0px 32px -9px rgba(0,0,0,0.75);">
                 <div class="media no-margin">
                     <div class="media-left media-middle">
                         <i class="icon-fire icon-2x"></i>
@@ -156,57 +157,61 @@
                     <div class="heading-elements">
                         <form class="heading-form" action="#">
                             <div class="form-group">
-                                <select class="form-control">
-                                    <option value="AK">Community</option>
-                                    <option value="HI">Hawaii</option>
+                                <select class="form-control" name="badges-category">
+                                    {% for tag in userTags %}
+                                    <option value="{{ tag.code }}">{{ tag.name }}</option>
+                                    {% endfor %}
                                 </select>
                             </div>
                         </form>
                     </div>
                 </div>
-                    <ul class="media-list media-list-linked media-list-bordered">
-                        <li class="media">
-                            <a href="#" class="media-link">
-                                <div class="media-left">
-                                    <img src="http://localhost:8000/uploads/game/ninja-training.png" class="img-circle" alt="">
-                                </div>
+                <div class="panel-body no-margin no-padding">
+                    {% for tagCode, badgeCompletions in mostUnlockedBadges %}
+                        {% if badgeCompletions is empty %}
+                            <p class="text-muted text-center badges-top-unlock p-15 hide no-margin-bottom" id="badges-{{ tagCode }}">No badge unlocked in this category.</p>
+                        {% else %}
+                            <ul class="media-list media-list-linked media-list-bordered hide badges-top-unlock" id="badges-{{ tagCode }}" style="max-height: 500px; overflow-y: auto;">
+                                {% for badgeCompletion in badgeCompletions %}
+                                    <li class="media">
+                                        <a href="{{ url('viewbadge', {id: badgeCompletion['badge'].id}) }}" class="media-link">
+                                            <div class="media-left">
+                                                <img src="{{ badgeCompletion['badge'].getImageWebPath() }}" class="img-circle" alt="">
+                                            </div>
 
-                                <div class="media-body">
-                                    <i class="icon-check text-success" style="position: absolute; right: 0; top: 0;"></i>
-                                    <h6 class="media-heading">I Love the Smell of Napalm in the Morning</h6>
-                                    <span class="text-muted">Unlocked <b>5 times</b></span>
-                                </div>
-                            </a>
-                        </li>
-
-                        <li class="media">
-                            <a href="#" class="media-link">
-                                <div class="media-left">
-                                    <img src="http://localhost:8000/uploads/game/ninja-training.png" class="img-circle" alt="">
-                                </div>
-
-                                <div class="media-body">
-                                    <h6 class="media-heading">Alas goodness nutria</h6>
-                                    <span class="text-muted">Unlocked <b>2 times</b></span>
-                                </div>
-                            </a>
-                        </li>
-
-                        <li class="media">
-                            <a href="#" class="media-link">
-                                <div class="media-left">
-                                    <img src="http://localhost:8000/uploads/game/ninja-training.png" class="img-circle" alt="">
-                                </div>
-
-                                <div class="media-body">
-                                    <h6 class="media-heading">As across mallard</h6>
-                                    <span class="text-muted">Unlocked <b>1 times</b></span>
-                                </div>
-                            </a>
-                        </li>
-                    </ul>
+                                            <div class="media-body">
+                                                <h6 class="media-heading">{{ badgeCompletion['badge'].title }}</h6>
+                                                <span class="text-muted">Unlocked <b>{{ badgeCompletion['nbCompletions'] }} time(s)</b></span>
+                                            </div>
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    {% endfor %}
+                </div>
             </div>
             <!-- /list with text -->
         </div>
     </div>
 {% endblock %}
+
+{% block javascripts %}
+    <script>
+        var defaultTag = '{{ userTags[0].code }}';
+        var displayBadgeCategory = function (category) {
+            $('.badges-top-unlock').addClass('hide');
+            $('#badges-' + category).removeClass('hide');
+        };
+
+        $(document).ready(function() {
+            displayBadgeCategory(defaultTag);
+        });
+
+        $('select[name="badges-category"]').change(function (e) {
+            var category = e.target.value;
+            displayBadgeCategory(category);
+        });
+    </script>
+{% endblock %}
+

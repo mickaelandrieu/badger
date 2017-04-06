@@ -18,16 +18,34 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
+        $mostUnlockedBadges = [];
+        $userTags = $this->getUser()->getTags()->toArray();
+
+        // Put default tag first
+        usort($userTags, function ($a, $b)
+        {
+            if ($a->isDefault()) {
+                return -1;
+            } else if($b->isDefault()) {
+                return 1;
+            }
+        });
+
+        foreach ($userTags as $tag) {
+            $mostUnlockedBadges[$tag->getCode()] = $this->get('badger.game.repository.badge_completion')->getMostUnlockedBadgesForMonth(
+                date('m'),
+                date('Y'),
+                $tag,
+                50
+            );
+        }
+
         $newMembers = $this->get('badger.user.repository.user')->getNewUsersForMonth(date('m'), date('Y'));
 
-        // TODO: TO UPDATE
-        $lastBadgeCompletions = $this->get('badger.game.repository.badge_completion')->findByTags(
-            $this->getUser()->getTags()->toArray()
-        );
-
         return $this->render('@Game/home.html.twig', [
-            'badgeCompletions' => $lastBadgeCompletions,
-            'newMembers' => $newMembers
+            'newMembers'         => $newMembers,
+            'mostUnlockedBadges' => $mostUnlockedBadges,
+            'userTags'           => $userTags
         ]);
     }
 

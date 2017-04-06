@@ -81,9 +81,4 @@ class UserRepository extends EntityRepository implements UserRepositoryInterface
 
         return $query->getResult();
     }
-
-    public function getUsersPerUnlockedBadgesForMonth($month, $year)
-    {
-
-    }
 }
