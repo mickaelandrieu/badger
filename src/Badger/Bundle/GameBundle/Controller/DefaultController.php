@@ -19,6 +19,8 @@ class DefaultController extends Controller
     public function indexAction()
     {
         $mostUnlockedBadges = [];
+        $badgeChampions = [];
+        $userBadgeCompletions = [];
         $userTags = $this->getUser()->getTags()->toArray();
 
         // Put default tag first
@@ -31,21 +33,41 @@ class DefaultController extends Controller
             }
         });
 
+        // Get most unlocked badges & champions per tag
         foreach ($userTags as $tag) {
-            $mostUnlockedBadges[$tag->getCode()] = $this->get('badger.game.repository.badge_completion')->getMostUnlockedBadgesForMonth(
-                date('m'),
-                date('Y'),
-                $tag,
-                50
-            );
+            $month = date('m');
+            $year = date('Y');
+
+            $mostUnlockedBadges[$tag->getCode()] = $this->get('badger.game.repository.badge_completion')
+                ->getMostUnlockedBadgesForMonth($month, $year, $tag, 5);
+
+            $userCompletions = $this->get('badger.game.repository.badge_completion')
+                ->getNumberOfUnlocksForMonth($month, $year, $tag, $this->getUser());
+
+            if (!empty($userCompletions)) {
+                $userBadgeCompletions[$tag->getCode()] = current($userCompletions)['nbCompletions'];
+            }
+
+            $maxBadgeCompletions = $this->get('badger.game.repository.badge_completion')
+                ->getNumberOfUnlocksForMonth($month, $year, $tag);
+
+            $champions = $this->get('badger.user.repository.user')
+                ->getMonthlyBadgeChampions($month, $year, $tag, $maxBadgeCompletions);
+
+            foreach ($champions as $champion) {
+                $badgeChampions[$tag->getCode()][$champion['badgeCompletions']][] = $champion['user'];
+            }
+
         }
 
         $newMembers = $this->get('badger.user.repository.user')->getNewUsersForMonth(date('m'), date('Y'));
 
         return $this->render('@Game/home.html.twig', [
-            'newMembers'         => $newMembers,
-            'mostUnlockedBadges' => $mostUnlockedBadges,
-            'userTags'           => $userTags
+            'newMembers'           => $newMembers,
+            'mostUnlockedBadges'   => $mostUnlockedBadges,
+            'userTags'             => $userTags,
+            'badgeChampions'       => $badgeChampions,
+            'userBadgeCompletions' => $userBadgeCompletions
         ]);
     }
 

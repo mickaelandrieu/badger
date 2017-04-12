@@ -4,6 +4,8 @@
 
 {% block body %}
 
+    {{ dump(userBadgeCompletions) }}
+
 <h1 class="no-margin text-black mt-10 mb-10"><i class="icon-stats-growth"></i> Monthly recap for {{ "now"|date("F Y") }}</h1>
 
     <div class="row">
@@ -29,7 +31,6 @@
             </div>
 
             {% if newMembers|length > 0 %}
-            <!-- List with text -->
             <div class="panel panel-flat">
                 <ul class="media-list media-list-linked media-list-bordered" style="max-height: 500px; overflow-y: auto;">
                     {% for user in newMembers %}
@@ -45,7 +46,6 @@
                     {% endfor %}
                 </ul>
             </div>
-            <!-- /list with text -->
             {% endif %}
 
         </div>
@@ -80,45 +80,30 @@
                     </div>
                 </div>
                 <div class="panel-body no-margin no-padding">
-                    <ul class="media-list media-list-bordered" style="max-height: 500px; overflow-y: auto;">
-                        <li class="media p-15 no-margin-top" style="background-image: url({{ asset('bundles/game/images/bg.png') }}); box-shadow: inset 0px 0px 40px -14px rgba(171,162,31,1);">
-                            <div class="media-left"><i class="icon-medal-first icon-3x" style="color: #c3c300;"></i></div>
-                            <div class="media-body">
-                                <div class="media-heading text-semibold"><span class="label label-success label-rounded">+7 Badges</span></div>
-                                <ul class="list-inline list-inline-condensed no-margin-bottom mt-15">
-                                    <li><a href="#"><img src="https://avatars.githubusercontent.com/u/301169?v=3" class="img-circle img-xs" alt=""></a></li>
-                                    <li><a href="#"><img src="https://avatars.githubusercontent.com/u/301169?v=3" class="img-circle img-xs" alt=""></a></li>
-                                    <li><a href="#"><img src="https://avatars.githubusercontent.com/u/301169?v=3" class="img-circle img-xs" alt=""></a></li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li class="media p-15 no-margin-top" style="background-image: url({{ asset('bundles/game/images/bg.png') }});">
-                            <div class="media-left"><i class="icon-medal-second icon-3x" style="color: #bbbbbb;"></i></div>
-                            <div class="media-body">
-                                <div class="media-heading text-semibold"><span class="label label-success label-rounded">+4 Badges</span></div>
-                                <ul class="list-inline list-inline-condensed no-margin-bottom mt-15">
-                                    <li><a href="#"><img src="https://avatars.githubusercontent.com/u/301169?v=3" class="img-circle img-xs" alt=""></a></li>
-                                    <li><a href="#"><img src="https://avatars.githubusercontent.com/u/301169?v=3" class="img-circle img-xs" alt=""></a></li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li class="media p-15 no-margin-top">
-                            <div class="media-left"><i class="icon-medal-third icon-3x" style="color: #c79c74;"></i></div>
-                            <div class="media-body">
-                                <div class="media-heading text-semibold"><span class="label label-success label-rounded">+1 Badges</span></div>
-                                <ul class="list-inline list-inline-condensed no-margin-bottom mt-15">
-                                    <li><a href="#"><img src="https://avatars.githubusercontent.com/u/301169?v=3" class="img-circle img-xs mt-5" alt=""></a></li>
-                                    <li><a href="#"><img src="https://avatars.githubusercontent.com/u/301169?v=3" class="img-circle img-xs mt-5" alt=""></a></li>
-                                    <li><a href="#"><img src="https://avatars.githubusercontent.com/u/301169?v=3" class="img-circle img-xs mt-5" alt=""></a></li>
-                                    <li><a href="#"><img src="https://avatars.githubusercontent.com/u/301169?v=3" class="img-circle img-xs mt-5" alt=""></a></li>
-                                    <li><a href="#"><img src="https://avatars.githubusercontent.com/u/301169?v=3" class="img-circle img-xs mt-5" alt=""></a></li>
-                                    <li><a href="#"><img src="https://avatars.githubusercontent.com/u/301169?v=3" class="img-circle img-xs mt-5" alt=""></a></li>
-                                    <li><a href="#"><img src="https://avatars.githubusercontent.com/u/301169?v=3" class="img-circle img-xs mt-5" alt=""></a></li>
-                                    <li><a href="#"><img src="https://avatars.githubusercontent.com/u/301169?v=3" class="img-circle img-xs mt-5" alt=""></a></li>
-                                </ul>
-                            </div>
-                        </li>
-                    </ul>
+                    {% for tag in userTags %}
+                        {% if badgeChampions[tag.code] is not defined %}
+                            <p class="text-muted text-center champions-top-unlock p-15 hide no-margin-bottom" id="champions-{{ tag.code }}">No champion in this category.</p>
+                        {% else %}
+                            <ul class="media-list media-list-bordered hide champions-top-unlock" id="champions-{{ tag.code }}" style="max-height: 500px; overflow-y: auto;">
+                                {% for nbCompletions, champions in badgeChampions[tag.code] %}
+                                    {% if loop.index == 1 %}{% set icon = 'first' %}{% endif %}
+                                    {% if loop.index == 2 %}{% set icon = 'second' %}{% endif %}
+                                    {% if loop.index == 3 %}{% set icon = 'third' %}{% endif %}
+                                <li class="media p-15 no-margin-top home-champions-{{ loop.index }}">
+                                    <div class="media-left"><i class="icon-medal-{{ icon }} icon-3x"></i></div>
+                                    <div class="media-body">
+                                        <div class="media-heading text-semibold"><span class="label label-success label-rounded">+{{ nbCompletions }} Badges</span></div>
+                                        <ul class="list-inline list-inline-condensed no-margin-bottom mt-15">
+                                            {% for user in champions %}
+                                                <li><a href="{{ url('userprofile', {username: user.username}) }}" data-popup="tooltip" title="" data-placement="top" data-original-title="{{ user.username }}"><img src="{{ user.profilePicture }}" class="img-circle img-xs mt-5" alt=""></a></li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    {% endfor %}
                 </div>
             </div>
             <!-- /list with text -->
@@ -171,7 +156,7 @@
                         {% if badgeCompletions is empty %}
                             <p class="text-muted text-center badges-top-unlock p-15 hide no-margin-bottom" id="badges-{{ tagCode }}">No badge unlocked in this category.</p>
                         {% else %}
-                            <ul class="media-list media-list-linked media-list-bordered hide badges-top-unlock" id="badges-{{ tagCode }}" style="max-height: 500px; overflow-y: auto;">
+                            <ul class="media-list media-list-linked media-list-bordered hide badges-top-unlock" id="badges-{{ tagCode }}">
                                 {% for badgeCompletion in badgeCompletions %}
                                     <li class="media">
                                         <a href="{{ url('viewbadge', {id: badgeCompletion['badge'].id}) }}" class="media-link">
@@ -199,18 +184,27 @@
 {% block javascripts %}
     <script>
         var defaultTag = '{{ userTags[0].code }}';
-        var displayBadgeCategory = function (category) {
+        var displayBadgesCategory = function (category) {
             $('.badges-top-unlock').addClass('hide');
             $('#badges-' + category).removeClass('hide');
         };
-
-        $(document).ready(function() {
-            displayBadgeCategory(defaultTag);
-        });
+        var displayChampionsCategory = function (category) {
+            $('.champions-top-unlock').addClass('hide');
+            $('#champions-' + category).removeClass('hide');
+        };
 
         $('select[name="badges-category"]').change(function (e) {
             var category = e.target.value;
-            displayBadgeCategory(category);
+            displayBadgesCategory(category);
+        });
+        $('select[name="champions-category"]').change(function (e) {
+            var category = e.target.value;
+            displayChampionsCategory(category);
+        });
+
+        $(document).ready(function() {
+            displayBadgesCategory(defaultTag);
+            displayChampionsCategory(defaultTag);
         });
     </script>
 {% endblock %}

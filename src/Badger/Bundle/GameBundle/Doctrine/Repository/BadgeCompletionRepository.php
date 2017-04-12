@@ -101,4 +101,33 @@ class BadgeCompletionRepository extends EntityRepository implements
 
         return $qb->getQuery()->getResult();
     }
+
+    public function getNumberOfUnlocksForMonth($month, $year, $tag, $user = null)
+    {
+        $lastDay = date('t', mktime(0, 0, 0, $month, 1, $year));
+
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('DISTINCT(COUNT(bc)) as nbCompletions')
+            ->from('GameBundle:BadgeCompletion', 'bc')
+            ->leftJoin('bc.badge', 'b')
+            ->leftJoin('b.tags', 't')
+            ->where('t.id = :tagId')
+                ->setParameter('tagId', $tag->getId())
+            ->andWhere('bc.pending = 0')
+            ->andWhere('bc.completionDate >= :firstDayOfMonth')
+                ->setParameter('firstDayOfMonth', date(sprintf('%s-%s-01', $year, $month)))
+            ->andWhere('bc.completionDate <= :lastDayOfMonth')
+                ->setParameter('lastDayOfMonth', date(sprintf('%s-%s-%s', $year, $month, $lastDay)))
+            ->groupBy('bc.user')
+            ->orderBy('nbCompletions', 'desc')
+            ->setMaxResults(3)
+        ;
+
+        if (null !== $user) {
+            $qb->andWhere('bc.user = :user')
+                ->setParameter('user', $user);
+        }
+
+        return $qb->getQuery()->getResult();
+    }
 }
