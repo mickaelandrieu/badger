@@ -108,18 +108,23 @@
             </div>
             <!-- /list with text -->
 
-            <div class="panel panel-body bg-primary-600" style="background-image: url({{ asset('bundles/game/images/bg.png') }}); -webkit-box-shadow: 0px 0px 32px -9px rgba(0,0,0,0.75); -moz-box-shadow: 0px 0px 32px -9px rgba(0,0,0,0.75); box-shadow: 0px 0px 32px -9px rgba(0,0,0,0.75);">
-                <div class="media no-margin">
-                    <div class="media-left media-middle">
-                        <img src="https://avatars.githubusercontent.com/u/301169?v=3" class="img-circle" alt="">
-                    </div>
+            {% for tag in userTags %}
+                {% if userBadgeCompletions[tag.code] is defined %}
+                    {{ tag.code }}
+                <div class="panel panel-body bg-primary-600" style="background-image: url({{ asset('bundles/game/images/bg.png') }}); -webkit-box-shadow: 0px 0px 32px -9px rgba(0,0,0,0.75); -moz-box-shadow: 0px 0px 32px -9px rgba(0,0,0,0.75); box-shadow: 0px 0px 32px -9px rgba(0,0,0,0.75);">
+                    <div class="media no-margin">
+                        <div class="media-left media-middle">
+                            <img src="https://avatars.githubusercontent.com/u/301169?v=3" class="img-circle" alt="">
+                        </div>
 
-                    <div class="media-body text-right">
-                        <h6 class="media-heading text-semibold">You unlocked <span class="label label-primary label-rounded">1 Badges</span> this month!</h6>
-                        <span class="text-muted"><small>Keep going {{ app.user.username }} :)</small></span>
+                        <div class="media-body text-right">
+                            <h6 class="media-heading text-semibold">You unlocked <span class="label label-primary label-rounded">{{ userBadgeCompletions[tag.code] }} Badges</span> in this category this month!</h6>
+                            <span class="text-muted"><small>Keep going {{ app.user.username }} :)</small></span>
+                        </div>
                     </div>
                 </div>
-            </div>
+                {% endif %}
+            {% endfor %}
         </div>
         <div class="col-md-4">
             <div class="panel panel-body bg-slate-700" style="background-image: url({{ asset('bundles/game/images/bg.png') }}); -webkit-box-shadow: 0px 0px 32px -9px rgba(0,0,0,0.75); -moz-box-shadow: 0px 0px 32px -9px rgba(0,0,0,0.75); box-shadow: 0px 0px 32px -9px rgba(0,0,0,0.75);">
